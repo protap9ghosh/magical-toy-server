@@ -53,6 +53,21 @@ async function run() {
          res.send(result);
       });
 
+      // toy category
+      app.get("/subCategory/:categorys", async (req, res) => {
+         if (
+            req.params.categorys == "Cat" ||
+            req.params.categorys == "dog" ||
+            req.params.categorys == "horse"
+         ) {
+            const result = await toyCollection
+               .find({ category: req.params.categorys })
+               .toArray();
+            return res.send(result);
+         }
+         const result = await toyCollection.find({}).toArray();
+         return res.send(result);
+      });
 
       // insert a toy
       app.post("/toy", async (req, res) => {
