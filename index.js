@@ -27,12 +27,14 @@ async function run() {
 
       const toyCollection = client.db("toyDB").collection("toy");
 
+      // find all toy
       app.get("/toy", async (req, res) => {
          const cursor = toyCollection.find();
          const result = await cursor.toArray();
          res.send(result);
       });
 
+      // find a specific toy collection
       app.get("/toy/:id", async (req, res) => {
          const id = req.params.id;
          const query = { _id: new ObjectId(id) };
@@ -56,6 +58,14 @@ async function run() {
          const newToy = req.body;
          console.log(newToy);
          const result = await toyCollection.insertOne(newToy);
+         res.send(result);
+      });
+
+      // delete toy
+      app.delete("/toy/:id", async (req, res) => {
+         const id = req.params.id;
+         const query = { _id: new ObjectId(id) };
+         const result = await toyCollection.deleteOne(query);
          res.send(result);
       });
 
