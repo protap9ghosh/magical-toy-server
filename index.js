@@ -61,6 +61,25 @@ async function run() {
          res.send(result);
       });
 
+      // update specific toy details
+      app.put('/toy/:id', async(req, res) => {
+         const id = req.params.id;
+         const filter = { _id: new ObjectId(id) }
+         const options = { upsert: true }
+         const updatedToy = req.body;
+         const toyInfo = {
+            $set: {
+               toyName: updatedToy.toyName,
+               photo: updatedToy.photo,
+               price: updatedToy.price,
+               quantity: updatedToy.quantity,
+               details: updatedToy.details,
+            },
+         };
+         const result = await toyCollection.updateOne(filter, toyInfo, options);
+         res.send(result);
+      })
+      
       // delete toy
       app.delete("/toy/:id", async (req, res) => {
          const id = req.params.id;
