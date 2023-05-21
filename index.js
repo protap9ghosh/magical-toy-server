@@ -29,7 +29,7 @@ async function run() {
 
       // find all toy
       app.get("/toy", async (req, res) => {
-         const cursor = toyCollection.find();
+         const cursor = toyCollection.find().limit(20);
          const result = await cursor.toArray();
          res.send(result);
       });
@@ -53,6 +53,7 @@ async function run() {
          res.send(result);
       });
 
+
       // insert a toy
       app.post("/toy", async (req, res) => {
          const newToy = req.body;
@@ -62,10 +63,10 @@ async function run() {
       });
 
       // update specific toy details
-      app.put('/toy/:id', async(req, res) => {
+      app.put("/toy/:id", async (req, res) => {
          const id = req.params.id;
-         const filter = { _id: new ObjectId(id) }
-         const options = { upsert: true }
+         const filter = { _id: new ObjectId(id) };
+         const options = { upsert: true };
          const updatedToy = req.body;
          const toyInfo = {
             $set: {
@@ -78,8 +79,8 @@ async function run() {
          };
          const result = await toyCollection.updateOne(filter, toyInfo, options);
          res.send(result);
-      })
-      
+      });
+
       // delete toy
       app.delete("/toy/:id", async (req, res) => {
          const id = req.params.id;
