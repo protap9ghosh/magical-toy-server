@@ -123,3 +123,4 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
    console.log(`Magical Toy is running on port ${port}`);
 });
+
